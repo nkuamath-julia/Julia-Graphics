@@ -1,9 +1,13 @@
 using Plots
 
+A = [];
+
 function f(x, y)
 	x = Int64(x); y = Int64(y);
-	if (x,y,1) in A
-		return 1;
+	for p in A
+		if p[1] == x && p[2] == y
+			return p[3];
+		end
 	end
 	return 0;
 end
@@ -15,16 +19,27 @@ function octant_decider(x1, y1, x2, y2)
 		return 1;
 	elseif dy > dx && dx > 0
 		return 2;
+	elseif dy > -dx && dy > 0
+		return 3;
+	elseif dy < -dx && dy > 0
+		return 4;
+	elseif dy <= dx && dy < 0
+		return 5;
+	elseif dy > dx && dx < 0
+		return 6;	
+	elseif dy > -dx && dy < 0
+		return 7;
+	elseif dy < -dx && dy > 0
+		return 8;
 	end
 end
 
-
-# Bresenham algorithm for 1st octant
-function bresline1(x1, y1, x2, y2, color)
-	A = []
+# Bresenham algorithm for octants 1,2
+function bresline(x1, y1, x2, y2, color)
 	oct = octant_decider(x1, y1, x2, y2);
 	
 	if oct == 2
+		temp = x1; x1 = y1; y1 = temp;
 		temp = x2; x2 = y2; y2 = temp;
 	end
 	
@@ -36,7 +51,11 @@ function bresline1(x1, y1, x2, y2, color)
 	e = 2*dy - dx;
 	c2 = e - dx;
 	while x <= x2
-		A = [A;(x, y, color)];
+		if oct == 1
+			global A = [A;(x, y, color)];
+		elseif oct == 2
+			global A = [A;(y, x, color)];
+		end
 		x += 1;
 		if e < 0
 			e += c1;
@@ -45,15 +64,6 @@ function bresline1(x1, y1, x2, y2, color)
 			e += c2;
 		end
 	end
-	
-	if oct == 1
-		return A;
-	elseif oct == 2
-		for i in 1:length(A)
-			A[i] = (A[i][2], A[i][1], A[i][3]);
-		end
-		return A;
-	end
 end
 
 # classic plot
@@ -61,10 +71,17 @@ end
 #plot(x, sin)
 
 # Enter here the coordinates of the 2 points.
-P1 = (0,0);
-P2 = (150,200);
+P1 = (50,195);
+P2 = (100,200);
+P3 = (95, 30);
+P4 = (20, 0);
+P5 = (25, 50);
 
-x = range(min(P1[1], P2[1]), max(P1[1], P2[1]));
-y = range(min(P1[2], P2[2]), max(P1[2], P2[2]));
-A = bresline1(P1[1], P1[2], P2[1], P2[2], 1);
+x = range(0, 150);
+y = range(0, 200);
+A=[(0,0,1)];
+bresline(P1[1], P1[2], P2[1], P2[2], 0.8);
+bresline(P3[1], P3[2], P2[1], P2[2], 0.8);
+bresline(P4[1], P4[2], P3[1], P3[2], 0.8);
+bresline(P4[1], P4[2], P5[1], P5[2], 0.8);
 heatmap(x, y, f, c = :deep, aspect_ratio=:equal);
