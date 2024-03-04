@@ -32,19 +32,17 @@ function Bresenham_first_oct(x1, y1, x2, y2)
             e += c2
         end
     end
+    println(L)
     return [L[1,:], L[2,:]]
 end
 
-function Bresenham(x1, y1, x2, y2)
+function Bresenham_line(x1, y1, x2, y2)
 # Select starting point with the smallest y coordinate
 
     if y2 < y1
         x1, x2 = x2, x1
         y1, y2 = y2, y1
-        plot!(title = "Bresenham line: ($x2,$y2) -> ($x1,$y1)", aspect_ratio=1)
-    else
-        plot!(title = "Bresenham line: ($x1,$y1) -> ($x2,$y2)", aspect_ratio=1)
-    end        
+    end       
 # Find octants
     dx = x2 - x1
     dy = y2 - y1
@@ -70,19 +68,30 @@ function Bresenham(x1, y1, x2, y2)
     else # oct 4
         println("oct4")
         xPoints, yPoints = Bresenham_first_oct(-x1, y1, -x2, y2)
-         #from 1st octant, back to 3rd so:
-            #1. switch xPoints with yPoints to go to 4th mirror with respect to xPoints 
+         #from 1st octant, back to 4rd so:
+            #1. mirror with respect to xPoints 
             xPoints, yPoints = -xPoints, yPoints
     end
     
-    plot(xPoints, yPoints, xlabel="x", ylabel="y", legend=false, lc=:red)
-    #add axis
-    # plot!([-30, 30], [0, 0], color=:black, linewidth=1, linestyle=:dash, aspect_ratio=:equal)
-    # plot!([0, 0], [-30, 30], color=:black, linewidth=1, linestyle=:dash)
     
-    
-    scatter!(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
+    scatter(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
+    # plot(xPoints, yPoints, xlabel="x", ylabel="y", legend=false, lc=:red) uncomment to add line
+    for i in 1:length(xPoints)
+        draw_rectangle(xPoints[i], yPoints[i])
+    end
+
+    plot!(title = "Bresenham line: ($x1,$y1) -> ($x2,$y2)", aspect_ratio=1)
+    # scatter!(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
     savefig("giannis/line.png")   
 end
 
-Bresenham(8, -5, 0, 0)
+function draw_rectangle(x, y)
+    # Define the coordinates of the rectangle vertices
+    x_vertices = [x - 0.5, x + 0.5, x + 0.5, x - 0.5, x - 0.5]
+    y_vertices = [y - 0.5, y - 0.5, y + 0.5, y + 0.5, y - 0.5]
+
+    # Plot the rectangle
+    plot!(x_vertices, y_vertices, aspect_ratio=:equal, linewidth=2, color=:blue, fill=true, alpha=0.5)
+end
+
+Bresenham_line(-3, 5, 0, 0)
