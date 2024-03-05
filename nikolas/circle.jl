@@ -41,8 +41,7 @@ R = 50;
 
 x = range(0, 200);
 y = range(0, 200);
-for i in 1:20
-	circle(P1[1], P1[2], R-i, div(i,2));
-end
+circle(P1[1], P1[2], R, 1);
 
 heatmap(x, y, f, c = :deep, aspect_ratio=:equal);
+savefig("myplot.png")
