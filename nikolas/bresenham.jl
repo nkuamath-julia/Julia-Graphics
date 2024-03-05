@@ -121,3 +121,4 @@ x = range(min(P1[1], P2[1]), max(P1[1], P2[1]));
 y = range(min(P1[2], P2[2]), max(P1[2], P2[2]));
 bresline(P1[1], P1[2], P2[1], P2[2], 1);
 heatmap(x, y, f, c = :deep, aspect_ratio=:equal);
+savefig("myplot.png")
