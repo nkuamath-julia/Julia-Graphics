@@ -76,7 +76,7 @@ function Bresenham_line(x1, y1, x2, y2)
     
     scatter(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
     # plot(xPoints, yPoints, xlabel="x", ylabel="y", legend=false, lc=:red) uncomment to add line
-    for i in 1:length(xPoints)
+    for i in 1:eachindex(xPoints)
         draw_rectangle(xPoints[i], yPoints[i])
     end
 
