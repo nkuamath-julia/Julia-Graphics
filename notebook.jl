@@ -18,7 +18,7 @@ end
 using PlutoUI
 
 # ╔═╡ 18bf0b8e-0a0e-4af1-88a6-25ebf94d3393
-#Define pixel
+#Load Plots
 using Plots
 
 # ╔═╡ 46ec6ca0-dad6-11ee-0402-1b36edc80ead
