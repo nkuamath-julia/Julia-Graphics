@@ -1,9 +1,6 @@
 using Plots
 
-function Bresenham_first_oct(x1, y1, x2, y2)
-    println("(x1,y1)",x1,y1)
-    println("(x2,y2)",x2,y2)
-    
+function Bresenham_first_oct(x1, y1, x2, y2) 
     dx = x2 - x1
     dy = y2 - y1
     x = x1
@@ -19,7 +16,6 @@ function Bresenham_first_oct(x1, y1, x2, y2)
     L[2, 1] = y
 
     while x <= x2
-        # Push x and y into matrix L
         L[1, x - x1 + 1] = x
         L[2, x - x1 + 1] = y
         
@@ -32,13 +28,11 @@ function Bresenham_first_oct(x1, y1, x2, y2)
             e += c2
         end
     end
-    println(L)
     return [L[1,:], L[2,:]]
 end
 
 function Bresenham_line(x1, y1, x2, y2)
 # Select starting point with the smallest y coordinate
-
     if y2 < y1
         x1, x2 = x2, x1
         y1, y2 = y2, y1
@@ -48,41 +42,36 @@ function Bresenham_line(x1, y1, x2, y2)
     dy = y2 - y1
     s = dy/dx
     if s <= 1 && s >= 0 # oct 1
-        println("oct1")
         xPoints, yPoints = Bresenham_first_oct(x1, y1, x2, y2)  
     elseif s > 1 # oct 2
-        println("oct2")
         xPoints, yPoints = Bresenham_first_oct(y1, x1, y2, x2) 
         
-        #from 1st octant, back to 2nd so i switch xPoints with yPoints
-        xPoints, yPoints = yPoints, xPoints
+        xPoints, yPoints = yPoints, xPoints #from 1st octant, back to 2nd so i switch xPoints with yPoints
+
     elseif s < -1 # oct 3
-        println("oct3")
         xPoints, yPoints = Bresenham_first_oct(y1, -x1, y2, -x2) 
-        #from 1st octant, back to 3rd so:
-            #1. switch xPoints with yPoints to go to 2nd octant 
-            xPoints, yPoints = yPoints, xPoints
-            #2. mirror with respect to new xPoints to go from 2nd to third
-            xPoints, yPoints = -xPoints, yPoints
+        #from 1st octant, back to 3rd: 
+            xPoints, yPoints = yPoints, xPoints #1. switch xPoints with yPoints to go to 2nd octant 
+            
+            xPoints, yPoints = -xPoints, yPoints #2. mirror with respect to new xPoints to go from 2nd to third
 
     else # oct 4
-        println("oct4")
         xPoints, yPoints = Bresenham_first_oct(-x1, y1, -x2, y2)
-         #from 1st octant, back to 4rd so:
-            #1. mirror with respect to xPoints 
-            xPoints, yPoints = -xPoints, yPoints
+        
+        xPoints, yPoints = -xPoints, yPoints #from 1st octant, back to 4rd so: mirror with respect to xPoints 
     end
     
     
     scatter(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
     # plot(xPoints, yPoints, xlabel="x", ylabel="y", legend=false, lc=:red) uncomment to add line
-    for i in 1:eachindex(xPoints)
+
+    for i in 1:size(xPoints,1)
         draw_rectangle(xPoints[i], yPoints[i])
     end
 
     plot!(title = "Bresenham line: ($x1,$y1) -> ($x2,$y2)", aspect_ratio=1)
     # scatter!(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
-    savefig("giannis/line.png")   
+    savefig("giannis/outputs/line.png")   
 end
 
 function draw_rectangle(x, y)
@@ -91,7 +80,7 @@ function draw_rectangle(x, y)
     y_vertices = [y - 0.5, y - 0.5, y + 0.5, y + 0.5, y - 0.5]
 
     # Plot the rectangle
-    plot!(x_vertices, y_vertices, aspect_ratio=:equal, linewidth=2, color=:blue, fill=true, alpha=0.5)
+    plot!(x_vertices, y_vertices, aspect_ratio=:equal, linewidth=2, color=:blue, fill=true)
 end
 
 Bresenham_line(-3, 5, 0, 0)
