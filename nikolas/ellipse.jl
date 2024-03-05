@@ -69,3 +69,4 @@ y = range(-200, 200);
 ellipse(100,150,1);
 
 heatmap(x, y, f, c = :deep, aspect_ratio=:equal);
+savefig("myplot.png")
