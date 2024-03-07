@@ -59,3 +59,5 @@ function ellipse(a,b)
     # scatter!(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
     savefig("giannis/ellipse.png")       
 end
+
+ellipse(10,7)
