@@ -2,8 +2,7 @@ using Plots
 
 A = [];
 
-function f(x, y)
-	x = Int64(x); y = Int64(y);
+function f(x::Int64, y::Int64)
 	for p in A
 		if p[1] == x && p[2] == y
 			return p[3];
