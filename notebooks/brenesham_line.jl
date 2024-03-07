@@ -27,7 +27,7 @@ md"""
 
 Δεδομένου ότι ο σχεδιασμός του ευθυγράμμου τμήματος συνίσταται στον επιλεκτικό φωτισμό διαδοχικών pixels ώστε αυτά να σχηματίζουν ευθύγραμμο τμήμα, θεωρούμε ότι αφού βρισκόμαστε στο 1ο οκταμόριο εάν ήδη είναι φωτισμένο το pixel $P_i(x_i , y_i)$ τα επόμενα δυνατά προς φωτισμό pixels θα είναι τα $P_{i+1}(x_{i+1} , y_i)$ ή $P_{i+1}(x_{i+1} , y_{i+1})$
 
-Παρατηρούμε δηλαδή ότι οπωσδήποτε θα αυξηθεί κατά $1$ η συντεταγμένη x και η συντεταγμένη y ή θα παραμείνει ίδια ή θα αυξηθεί κι αυτή κατά $1$. Θα πρέπει,λοιπόν να καθορίσουμε μία μεταβλητή σφάλματος, η οποία ανάλογα να αποφαίνεται εάν θα αυξηθεί ή όχι η συντεταγμένη y.
+Παρατηρούμε δηλαδή ότι οπωσδήποτε θα αυξηθεί κατά $1$ η συντεταγμένη x και η συντεταγμένη y ή θα παραμείνει ίδια ή θα αυξηθεί κι αυτή κατά $1$. Θα πρέπει, λοιπόν να καθορίσουμε μία μεταβλητή σφάλματος, η οποία ανάλογα να αποφαίνεται εάν θα αυξηθεί ή όχι η συντεταγμένη y.
 
 
 """
@@ -164,7 +164,7 @@ function draw_rectangle(x, y, color, test=true)
 # Plot the rectangle
 	if test    
 		plot(x_vertices, y_vertices, aspect_ratio=:equal, color=color, fill=true, legend=false, alpha=0.5)
-		scatter!([x], [y], color=:red, aspect_ratio=:equal, label="data")
+		scatter!([x], [y], color=:red, aspect_ratio=:equal)
 	else 	
 		plot!(x_vertices, y_vertices, aspect_ratio=:equal, linewidth=2, color=color, fill=true, legend=false, alpha=0.7)
 	end	
@@ -172,7 +172,7 @@ end
 
 
 # ╔═╡ 1faadce6-cdd8-4c35-9e58-e4aa364f9771
-draw_rectangle(7, 4, "blue",true)
+draw_rectangle(1, 10, "blue",true)
 
 # ╔═╡ f2723b86-5333-43ff-971a-17124f4f235c
 md"""
@@ -212,7 +212,7 @@ end
 
 # ╔═╡ 5b76278d-cfd0-4c89-b6bd-4f0281052b7c
 md"""
-Οπότε, αν ο χρήστης εισάγει τις συνταταγμένες 2 σήμειων, έστω $P_1(x_1,y_1), P_2(x_2,y_2)$, **τα οποία ανήκουν στο 1ο οκταμόριο**, τότε καλώντας τις παρακάτω εντολές λαμβάνουμε την ευθεία Bresenham που ενώνει τα 2 σημεία.
+Οπότε, αν ο χρήστης εισάγει τις συνταταγμένες 2 σήμειων, έστω $P_1(x_1,y_1), P_2(x_2,y_2)$, **τα οποία ανήκουν στο $1$ο οκταμόριο**, τότε καλώντας τις παρακάτω εντολές λαμβάνουμε την ευθεία Bresenham που ενώνει τα $2$ σημεία.
 
 #### Παράδειγμα
 """
@@ -225,7 +225,7 @@ begin
 	plot(0,0) # για να αρχικοποιήσει τον σχεδιασμό
 	xPoints, yPoints = Bresenham_first_oct(x1, y1, x2, y2)  
     for i in 1:size(xPoints,1)
-        draw_rectangle(xPoints[i], yPoints[i], "blue",false)
+        draw_rectangle(xPoints[i], yPoints[i], "blue", false)
     end
 
     plot!(title = "Bresenham line: ($x1,$y1) -> ($x2,$y2)", aspect_ratio=1)
@@ -294,7 +294,7 @@ md"""
 # ╔═╡ 1ba69294-ceb6-4ec7-8728-290a8a2f02ba
 html"""
 <div style="display:flex; flex-direction:column; align-items:center; gap:30px;">
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Symmetry_1st_2nd_octant.png"
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Symmetry-2nd.png"
 	width="80%" style="display:flex; margin:auto;"
 	alt="Bresenham 8th octant to 4th">
 
@@ -355,11 +355,11 @@ md"""
 # ╔═╡ a174d6b0-af49-4093-ac15-debb6930f925
 html"""
 <div style="display:flex; flex-direction:column; align-items:center; gap:30px;">
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Symmetry_3rd_1st_octant.png"
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Symmetry-3rd.png"
 	width="80%" style="display:flex; margin:auto;"
 	alt="Bresenham 8th octant to 4th">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Bresenham-3rd_symmetry.png"
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Bresenham-3rd.png"
 	width="80%" style="display:flex; margin:auto;"
 	alt="Bresenham 8th octant to 4th">
 </div>
@@ -421,7 +421,7 @@ md"""
 # ╔═╡ 8dff5b2b-a4a2-492a-88d3-c21c155fa2c5
 html"""
 <div style="display:flex; flex-direction:column; align-items:center; gap:30px;">
-<img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Symmetry_4th_1st_octant.png"
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Symmetry-4th.png"
 	width="80%" style="display:flex; margin:auto;"
 	alt="Bresenham 8th octant to 4th">
 
