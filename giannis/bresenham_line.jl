@@ -1,4 +1,5 @@
 using Plots
+using Ranges
 
 function Bresenham_first_oct(x1, y1, x2, y2) 
     dx = x2 - x1
@@ -40,7 +41,14 @@ function Bresenham_line(x1, y1, x2, y2)
     dx = x2 - x1
     dy = y2 - y1
     s = dy/dx
-    if s <= 1 && s >= 0 # oct 1
+    if dx == 0 #vertical line
+        xPoints, yPoints = x1*ones(Float64,length(y1:y2)), Vector{Float64}(y1:y2)
+    elseif dy == 0 #horizontal line
+        if x2 < x1
+            t = x1; x1 = x2; x2 = t;
+        end 
+        xPoints, yPoints =  Vector{Float64}(x1:x2), y1*ones(Float64,length(x1:x2))
+    elseif s <= 1 && s >= 0 # oct 1
         xPoints, yPoints = Bresenham_first_oct(x1, y1, x2, y2)  
     elseif s > 1 # oct 2
         xPoints, yPoints = Bresenham_first_oct(y1, x1, y2, x2) 
@@ -60,7 +68,8 @@ function Bresenham_line(x1, y1, x2, y2)
         xPoints, yPoints = -xPoints, yPoints #from 1st octant, back to 4rd so: mirror with respect to xPoints 
     end
     
-    # return [xPoints,yPoints]
+    # println("xPoints:", xPoints, typeof(xPoints))
+    # println("yPoints:", yPoints, typeof(yPoints))
 
     scatter(xPoints, yPoints, markersize=3, xlabel="x", ylabel="y", legend=false)
     # plot(xPoints, yPoints, xlabel="x", ylabel="y", legend=false, lc=:red) uncomment to add line
@@ -80,7 +89,7 @@ function draw_rectangle(x, y, color)
     y_vertices = [y - 0.5, y - 0.5, y + 0.5, y + 0.5, y - 0.5]
 
     # Plot the rectangle
-    plot!(x_vertices, y_vertices, aspect_ratio=:equal, linewidth=2, color=color, fill=true,alpha=0.5)
+    plot!(x_vertices, y_vertices, aspect_ratio=:equal, linewidth=2, color=color, fill=true, alpha=0.5)
 end
 
 function Bresenham_2(x1,y1,x2,y2,x3,y3,x4,y4)
@@ -101,5 +110,5 @@ function Bresenham_2(x1,y1,x2,y2,x3,y3,x4,y4)
     savefig("giannis/outputs/line-together.png")   
 end    
 
-Bresenham_line(0, 0, 3, 2)
+Bresenham_line(1, 2, 8, 2)
 # Bresenham_2(2, 1, 5, 3, 1, 2, 3, 5)  
